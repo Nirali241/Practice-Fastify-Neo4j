@@ -21,9 +21,11 @@ class handler {
           await this.runWriteQuery(emp1);  
          
           console.log(`employee working........ ${name}`);
-          return reply.code(201).send();
+          //CREATED Successfully
+          return reply.code(201).send(); 
         } catch(e) {
           console.log(e);
+          // Internal Server Error
           return reply.code(500).send(e);
         }
       }
@@ -69,10 +71,12 @@ class handler {
         const departmentname = request.params.department;
         const result = await this.runReadQuery(`MATCH (e:employee)-[:worksfor]->(d:department{name:"${departmentname}"}) RETURN e`);
         console.log(result);
+        //OK equest has succeeded
         return reply.code(200).send();
 
         } catch(e) {
           console.log(e);
+          // Bad Request
           return reply.code(400);
         }
       };
@@ -80,7 +84,7 @@ class handler {
     //GET all employee name who has some specific salary
       async getEmployeeSalary(request, reply) {
         try{
-          const salary = request.params.salary;
+          const salary = request.query.salary;
           console.log(salary);
           const result = await this.runReadQuery(`MATCH (e:employee) WHERE e.salary>${salary} RETURN e.name`);
           console.log(result);
@@ -112,6 +116,7 @@ class handler {
           return reply.code(200).send();
         
         } catch(e) {
+          //Not Modified
           return reply.code(304);
         }
       }
@@ -125,10 +130,23 @@ class handler {
 
           const result = await this.runWriteQuery(`MATCH (e:employee{name:"${empname}"}), (d:department{name:"${depname}"}) SET (e)-[r:${relation}]->(d) RETURN e,r,d`);
           return reply.code(200);
+        
         } catch(e) {
           return reply.code(304);
         }
       }
       
+      async getDeleteAttributeNode(request, reply) {
+        try{
+          const empname = request.query.name;
+
+          await this.runWriteQuery(`MATCH (e:employee{name:"${empname}"}) DETACH DELETE e`);
+          return reply.code(200);
+        
+        } catch(e) {
+          // Not Found
+          return reply.code(404);  
+        }
+      }
 }
 module.exports = handler;

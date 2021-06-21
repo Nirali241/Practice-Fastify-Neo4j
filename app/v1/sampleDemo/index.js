@@ -35,7 +35,7 @@ const node = new Nodes(fastify);
 
   fastify.route({
     method: "GET",
-    url: "/employee?salary=",
+    url: "/employee",
     handler: node.getEmployeeSalary.bind(node)
   });
 
@@ -49,6 +49,12 @@ const node = new Nodes(fastify);
     method: "PATCH",
     url: "/employee/:empname/:relation/:depname",
     handler: node.getupdateEmployeeRelation.bind(node)
+  })
+
+  fastify.route({
+    method:"DELETE",
+    url: "/employee",
+    handler: node.getDeleteAttributeNode.bind(node)
   })
 
 };
