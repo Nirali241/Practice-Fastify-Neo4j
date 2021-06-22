@@ -23,38 +23,38 @@ const node = new Nodes(fastify);
     method: "POST",
     url: "/employee/:empname/:relationship/:type/:entity",
     // schema: sampleSchema,
-    handler: node.createRelationshipwithNode.bind(node)
+    handler: node.createRelationshipWithEmployee.bind(node)
   });
 
   
   fastify.route({
     method: "GET",
     url: "/employee/:department",
-    handler: node.getEmployeeValue.bind(node)
+    handler: node.getEmployeesOfDepartment.bind(node)
   });
 
   fastify.route({
     method: "GET",
     url: "/employee",
-    handler: node.getEmployeeSalary.bind(node)
+    handler: node.getAllEmployees.bind(node)
   });
 
   fastify.route({
     method: "PATCH",
     url: "/employee/:name",
-    handler: node.getUpdateAttributeValue.bind(node)
+    handler: node.UpdateEmployeeDetails.bind(node)
   });
 
   fastify.route({
     method: "PATCH",
     url: "/employee/:empname/:relation/:depname",
-    handler: node.getupdateEmployeeRelation.bind(node)
+    handler: node.UpdateEmployeeRole.bind(node)
   })
 
   fastify.route({
     method:"DELETE",
-    url: "/employee",
-    handler: node.getDeleteAttributeNode.bind(node)
+    url: "/employee/:name",
+    handler: node.DeleteEmployee.bind(node)
   })
 
 };
